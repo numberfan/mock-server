@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <div>
+    <input type="text" />
+    <button class="add">add</button>
+  </div>
+
+  <script>
+    document.querySelector('.add').onclick = function () {
+      console.log(222222)
+      var xml = new XMLHttpRequest();
+      xml.onload = function () {
+        xml.onreadystatechange = function () {
+          if (xml.readyState == 4 && xml.status == 200) {
+            console.log('请求成功')
+          }
+        };
+      };
+      xml.open('GET', '/addData', true);
+      xml.send('233');
+    };
+  </script>
+</body>
+</html>
