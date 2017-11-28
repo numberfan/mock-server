@@ -2,12 +2,13 @@
  * @author: shirychen (shirychen9@163.com)
  * @date: 2017/11/27
  */
-const Mock = require('mockjs');
-const Random = Mock.Random;
-const createDatabase = require('./createDatebase');
+/* const Mock = require('mockjs')
+const Random = Mock.Random
+const createDatabase = require('./createDatebase') */
+const database = require('./database.json')
 
 module.exports = () => {
-  /*动态生成[/stars, /news]*/
+  /* !* 动态生成[/stars, /news] *!/
   let data = {
     stars: [],
     news: []
@@ -37,17 +38,27 @@ module.exports = () => {
     })
   }
 
+  /!*动态创建文件*!/
+  /!*let obj = [
+    {name: '张三'},
+    {name: '李四'},
+    {name: '王五'}
+  ];
+  createDatabase('t', obj);*!/
+
+  /!*遍历database/已有的数据*!/
+  let datas = require('./getDatebase');
+  data = Object.assign(data, datas);*/
+
   /*动态创建文件*/
   /*let obj = [
     {name: '张三'},
     {name: '李四'},
     {name: '王五'}
   ];
-  createDatabase('t', obj);*/
+  createDatabase('/user/data', obj);
+  */
 
-  /*遍历database/已有的数据*/
-  let datas = require('./getDatebase');
-  data = Object.assign(data, datas);
-
-  return data;
-};
+  console.log(database)
+  return database
+}

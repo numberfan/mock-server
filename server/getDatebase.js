@@ -2,8 +2,8 @@
  * @author: shirychen (shirychen9@163.com)
  * @date: 2017/11/27
  */
-let path = require('path')
-let glob = require('glob')
+const path = require('path')
+const glob = require('glob')
 
 // 读取js文件
 const apiFiles = glob.sync(path.resolve(__dirname, './') + '/database/*.js', {
