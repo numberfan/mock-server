@@ -17,7 +17,9 @@
     }
   ],
   "profile": {},
-  "user": {},
+  "user": {
+    "name": "ss"
+  },
   "user_data": {
     "name": "3332张三与李四"
   }

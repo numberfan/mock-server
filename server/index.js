@@ -4,7 +4,7 @@
  */
 const config = require('./config')
 const jsonServer = require('json-server')
-const rules = require('./routes')
+const rules = require('./config/route-rewrite')
 const ip = config.SERVER
 const port = config.PORT
 const staticFile = config.STATIC
@@ -15,15 +15,11 @@ const db = router.db
 const middlewares = jsonServer.defaults({
   static: staticFile
 })
+const useCustomMiddlewares = require('./middlewares/index.js')
 server.use(jsonServer.rewriter(rules))
 server.use(jsonServer.bodyParser)
 server.use(middlewares)
-server.use('/write', (req, res, next) => {
-  db.set('user.name', 'lrh')
-    .write()
-  res.locals.data = db.get('user').value()
-  next()
-})
+useCustomMiddlewares(server, db)
 server.use(router)
 
 router.render = (req, res) => {
