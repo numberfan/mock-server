@@ -5,20 +5,26 @@
 const config = require('./config')
 const jsonServer = require('json-server')
 const rules = require('./routes')
-const createDatabase = require('./createDatebase')
-
 const ip = config.SERVER
 const port = config.PORT
 const staticFile = config.STATIC
 
 const server = jsonServer.create()
 const router = jsonServer.router(config.DB_FILE)
+const db = router.db
 const middlewares = jsonServer.defaults({
   static: staticFile
 })
-
+server.use(jsonServer.rewriter(rules))
 server.use(jsonServer.bodyParser)
 server.use(middlewares)
+server.use('/write', (req, res, next) => {
+  db.set('user.name', 'lrh')
+    .write()
+  res.locals.data = db.get('user').value()
+  next()
+})
+server.use(router)
 
 router.render = (req, res) => {
   res.jsonp({
@@ -26,19 +32,6 @@ router.render = (req, res) => {
     data: res.locals.data
   })
 }
-
-// /addData 用于html请求添加api的
-server.use('/addData', (req, res, next) => {
-  let api = {
-    name: ''
-  }
-  createDatabase('/user/data', api)
-  next()
-})
-
-server.use('/api', router)
-server.use(jsonServer.rewriter(rules))
-server.use(router)
 
 server.listen({
   host: ip,
