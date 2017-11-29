@@ -4,7 +4,7 @@
  */
 module.exports = {
   SERVER: '127.0.0.1',
-  PORT: 8882,
+  PORT: 8880,
   RULES: 'routes.json',
   DB_FILE: 'server/database.json',
   STATIC: './src'

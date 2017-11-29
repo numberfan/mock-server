@@ -6,28 +6,47 @@
 </head>
 <body>
   <div>
-    <input type="text" />
+    <textarea name="" id="" cols="30" rows="10" class="j-data"></textarea>
     <button class="add">add</button>
   </div>
 
   <script>
+    /*暂定数据结构：
+    "properties": {
+      "firstName": {
+        "type": "string"
+      },
+      "lastName": {
+        "type": "string"
+      },
+      "username": {
+        "type": "string"
+      }
+    }*/
     document.querySelector('.add').onclick = function () {
+      var data = document.querySelector('.j-data');
+      ajax('POST','/addData', data.value, function () {
+        console.log('hello')
+      })
+    };
+
+
+    function ajax (type, url, data, callback) {
       var xhr = new XMLHttpRequest();
       xhr.onload = function () {
         xhr.onreadystatechange = function () {
           if (xhr.readyState == 4 && xhr.status == 200) {
-            console.log('请求成功')
+            callback();
           }
         };
       };
-      xhr.open('GET', '/addData', true);
+      type = type.toUpperCase();
+      xhr.open(type, url, true);
       xhr.setRequestHeader('Content-Type', 'application/json')
-      var obj = {
-        "title": "lowdb is awesome"
-      };
-      obj = JSON.stringify(obj);
-      xhr.send(null)
-    };
+      data = (typeof data) === 'array' ? data :  JSON.stringify(data)
+      console.log(data)
+      xhr.send(data)
+    }
   </script>
 </body>
 </html>

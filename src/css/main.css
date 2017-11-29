@@ -1,0 +1,13 @@
+@import "bootstrap.css";
+html,
+body {
+  height: 100%;
+}
+.info {
+  color: #31708f;
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+  padding: 20px;
+  margin: 20px 20px 0 20px;
+  border-radius: 5px;
+}

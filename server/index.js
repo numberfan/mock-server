@@ -29,9 +29,13 @@ router.render = (req, res) => {
 
 // /addData 用于html请求添加api的
 server.use('/addData', (req, res, next) => {
-  createDatabase('/user/data', 222)
+  let api = {
+    name: ''
+  }
+  createDatabase('/user/data', api)
   next()
 })
+
 server.use('/api', router)
 server.use(jsonServer.rewriter(rules))
 server.use(router)

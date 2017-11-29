@@ -4,6 +4,9 @@
       "id": 1,
       "title": "json-server",
       "author": "typicode"
+    },
+    {
+      "id": 2
     }
   ],
   "comments": [
@@ -15,7 +18,7 @@
   ],
   "profile": {},
   "user": {},
-  "shirychen": [
-    "chenfan"
-  ]
+  "user_data": {
+    "name": "3332张三与李四"
+  }
 }
