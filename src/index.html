@@ -6,30 +6,60 @@
 </head>
 <body>
   <div>
-    <textarea name="" id="" cols="30" rows="10" class="j-data"></textarea>
+    <input type="text" id="j-url" />
+    <textarea name="" cols="30" rows="10" id="j-data"></textarea>
     <button class="add">add</button>
   </div>
-
+  <script src="https://cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
   <script>
     /*暂定数据结构：
-    "properties": {
-      "firstName": {
-        "type": "string"
-      },
-      "lastName": {
-        "type": "string"
-      },
-      "username": {
-        "type": "string"
-      }
-    }*/
-    document.querySelector('.add').onclick = function () {
-      var data = document.querySelector('.j-data');
-      ajax('POST','/addData', data.value, function () {
-        console.log('hello')
-      })
-    };
+    {
+       "firstName": "string",
+       "lastName": "string",
+       "username": "string"
+     }
 
+     {
+     "firstName": "string",
+     "lastName": "string",
+     "username": "string",
+     "list": [
+     {
+     "user": "string",
+     "age": "number"
+     },
+     {
+     "user": "string",
+     "age": "number"
+     }
+     ]
+     }
+
+
+     [
+     {
+     "name": "string",
+     "age": "string"
+     },
+     {
+     "name": "string"
+     }
+     ]
+    */
+    document.querySelector('.add').onclick = function () {
+      $.ajax({
+        url: '/generator',
+        type: 'POST',
+        data: {
+          url: $('#j-url').val(),
+          data: $('#j-data').val()
+        },
+        success: function  (resp) {
+          console.log('success')
+        }
+      })
+
+    };
 
     function ajax (type, url, data, callback) {
       var xhr = new XMLHttpRequest();
@@ -46,6 +76,42 @@
       data = (typeof data) === 'array' ? data :  JSON.stringify(data)
       console.log(data)
       xhr.send(data)
+    }
+  </script>
+  <script>
+    var arr = {
+      a: 'string',
+      b: 'string'
+    };
+    var arr2 = {
+      ccc: 'number',
+      ddd: [
+        {aa: 'number'},
+        {bb: 'string'}
+      ]
+    }
+
+    console.log('arr')
+    console.log(dealData(arr))
+    console.log('arr2')
+    console.log(dealData(arr2))
+
+    function dealData (arr) {
+      console.log(arr, typeof arr)
+      console.log()
+      Object.keys(arr).forEach(item => {
+        let val = arr[item];
+        if (typeof val === 'object') {
+          dealData(val)
+        } else {
+          if (typeof val === 'string') {
+            val = val.toLowerCase();
+            arr[item] = (val === 'number') ? '数字' : '字符串'
+          }
+        }
+      })
+
+      return arr
     }
   </script>
 </body>
