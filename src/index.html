@@ -78,41 +78,5 @@
       xhr.send(data)
     }
   </script>
-  <script>
-    var arr = {
-      a: 'string',
-      b: 'string'
-    };
-    var arr2 = {
-      ccc: 'number',
-      ddd: [
-        {aa: 'number'},
-        {bb: 'string'}
-      ]
-    }
-
-    console.log('arr')
-    console.log(dealData(arr))
-    console.log('arr2')
-    console.log(dealData(arr2))
-
-    function dealData (arr) {
-      console.log(arr, typeof arr)
-      console.log()
-      Object.keys(arr).forEach(item => {
-        let val = arr[item];
-        if (typeof val === 'object') {
-          dealData(val)
-        } else {
-          if (typeof val === 'string') {
-            val = val.toLowerCase();
-            arr[item] = (val === 'number') ? '数字' : '字符串'
-          }
-        }
-      })
-
-      return arr
-    }
-  </script>
 </body>
 </html>
