@@ -23,7 +23,7 @@ module.exports = (db) => {
     let data = req.body.data
 
     data = JSON.parse(data)
-    data = dealData(data)
+    /* data = dealData(data) */
     url = url.charAt(0) === '/' ? url.substring(1, url.length) : url
     url = url.replace(/\//g, '_')
     // write api

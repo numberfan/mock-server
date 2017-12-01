@@ -1,7 +1,3 @@
-/**
- * @author: shirychen (shirychen9@163.com)
- * @date: 2017/11/23
- */
 const config = require('./config/index')
 const jsonServer = require('json-server')
 const rules = require('./config/route-rewrite')

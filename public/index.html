@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="jsoneditor.min.css">
+  <style>
+    .mgb {
+      margin-bottom: 20px;
+    }
+    .wrap {
+      width: 1200px;
+      margin: 0 auto;
+    }
+    .ipt {
+      border: 1px solid #3883fa;
+      width: 400px;
+      height: 35px;
+      padding: 0 10px;
+      box-sizing: border-box;
+    }
+    .tit {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .add {
+      width: 60px;
+      height: 35px;
+      background: #3883fa;
+      border: none;
+      font-size: 18px;
+      color: #fff;
+      cursor: pointer;
+    }
+  </style>
+  <script src="jsoneditor.min.js"></script>
+</head>
+<body>
+  <div class="wrap">
+    <div class="mgb tit">URL</div>
+    <div class="mgb">
+      <input type="text" id="j-url" placeholder="请输入您的URL" class="ipt" />
+    </div>
+    <div class="mgb tit">API</div>
+    <div id="jsoneditor" class="mgb" style="width: 400px; height: 400px;"></div>
+    <!--<label for="" class="item">API:<textarea name="" cols="30" rows="10" id="j-data" placeholder="请输入您的API" ></textarea></label>-->
+    <button class="add">add</button>
+  </div>
+  <script src="https://cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
+  <script>
+    /*暂定数据结构：
+    {
+       "firstName": "string",
+       "lastName": "string",
+       "username": "string"
+     }
+
+     {
+     "firstName": "string",
+     "lastName": "string",
+     "username": "string",
+     "list": [
+     {
+     "user": "string",
+     "age": "number"
+     },
+     {
+     "user": "string",
+     "age": "number"
+     }
+     ]
+     }
+
+
+     [
+     {
+     "name": "string",
+     "age": "string"
+     },
+     {
+     "name": "string"
+     }
+     ]
+    */
+    // create the editor
+    var container = document.getElementById("jsoneditor");
+    var options = {};
+    var editor = new JSONEditor(container, options);
+
+    // set json
+    /*var json = {
+      "num": [1, 2, 3],
+      "isFirstTime": true,
+      "age": 123,
+      "user": {
+        "a": "b",
+        "c": "d"
+      },
+      "msg": "Hello World"
+    };
+    editor.set(json);*/
+
+    document.querySelector('.add').onclick = function () {
+      var json = JSON.stringify(editor.get());
+      var url = $('#j-url').val();
+
+      if (!url) {
+        alert('请输入您的URL结构');
+        return;
+      } else if (!json) {
+        alert('请输入您的API结构');
+        return;
+      }
+
+      $.ajax({
+        url: '/generator',
+        type: 'POST',
+        data: {
+          url: url,
+          data: json
+        },
+        success: function  (resp) {
+          console.log('success')
+        }
+      })
+
+    };
+
+    function ajax (type, url, data, callback) {
+      var xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState == 4 && xhr.status == 200) {
+            callback();
+          }
+        };
+      };
+      type = type.toUpperCase();
+      xhr.open(type, url, true);
+      xhr.setRequestHeader('Content-Type', 'application/json')
+      data = (typeof data) === 'array' ? data :  JSON.stringify(data)
+      console.log(data)
+      xhr.send(data)
+    }
+  </script>
+</body>
+</html>
